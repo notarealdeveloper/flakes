@@ -1,13 +1,15 @@
 {
   description = "Hello C binary flake";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  };
 
   outputs = { self, nixpkgs, ... }:
     let
       system = "x86_64-linux";
-      pkgs   = import nixpkgs { inherit system; };
-      hello  = pkgs.stdenv.mkDerivation {
+      pkgs = import nixpkgs { inherit system; };
+      hello = pkgs.stdenv.mkDerivation {
         pname = "hello";
         version = "1.0";
         src = builtins.fetchGit {
