@@ -9,6 +9,9 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
+      nix = pkgs.nix.overrideAttrs (final: prev: {
+        experimentalFeatures = [ "flakes" "nix-command" ];
+      });
       hello = pkgs.stdenv.mkDerivation {
         pname = "hello";
         version = "1.0";
@@ -17,7 +20,7 @@
           ref = "master";
           rev = "aea1e7c2100d5c1c3c3bcf910c00a247930135e6";
         };
-        nativeBuildInputs = [ pkgs.gnumake pkgs.gcc ];
+        nativeBuildInputs = [ pkgs.gnumake pkgs.gcc nix ];
         buildPhase = "make";
         installPhase = ''
           mkdir -p $out/bin

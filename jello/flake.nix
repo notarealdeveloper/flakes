@@ -11,6 +11,9 @@
       system = "x86_64-linux";  # static target
       pkgs = import nixpkgs { inherit system; };
       helloPkg = hello.packages.${system}.default;
+      nix = pkgs.nix.overrideAttrs (final: prev: {
+        experimentalFeatures = [ "flakes" "nix-command" ];
+      });
     in {
       packages.${system}.default = pkgs.stdenv.mkDerivation {
         pname = "jello";
@@ -20,7 +23,7 @@
 
         nativeBuildInputs = [
           pkgs.gnumake
-          pkgs.nixVersions.stable
+          nix
         ];
 
         buildInputs = [ helloPkg pkgs.python3Packages.pip ];
