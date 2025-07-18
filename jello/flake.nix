@@ -3,10 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    selfpkgs.url = "github:notarealdeveloper/flakes/master"
+    selfpkgs.url = "github:notarealdeveloper/flakes/master";
   };
 
-  outputs = { self, nixpkgs, ... }:
+  outputs = { self, nixpkgs, selfpkgs, ... } @ inputs:
   let
     system = "x86_64-linux";
     pkgs = import nixpkgs { inherit system; };
