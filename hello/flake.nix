@@ -1,9 +1,7 @@
 {
   description = "Hello C binary flake";
 
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-  };
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   outputs = { self, nixpkgs, ... }:
     let
@@ -25,22 +23,11 @@
         '';
       };
     in {
-      packages = {
-        "${system}" = {
-          hello         = hello;
-          default       = hello;              # <-- makes `.default` available
-        };
-      };
+      packages.${system}.default = hello;
 
-      defaultPackage.${system} = hello;      # <-- also works
-
-      apps = {
-        "${system}" = {
-          hello = {
-            type    = "app";
-            program = "${hello}/bin/hello";
-          };
-        };
+      apps.${system}.hello = {
+        type = "app";
+        program = "${hello}/bin/hello";
       };
     };
 }
